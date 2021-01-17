@@ -18,6 +18,7 @@ import java.net.URI;
  */
 public class ServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
+
     /**
      * 读取客户端发送过来的数据
      * 注意：浏览器访问接口时，会发出两次请求，第一次时请求数据；第二次时请求图标资源

@@ -33,7 +33,7 @@ public class NettyClient {
             System.out.println("客户端准备好了...");
             //连接服务器
             //TODO channelFuture，涉及netty的异步机制
-            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 6668).sync();
+            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 7000).sync();
             //对关闭通道进行监听
             channelFuture.channel().closeFuture().sync();
         }finally {

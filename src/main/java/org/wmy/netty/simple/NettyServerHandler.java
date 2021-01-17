@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  * 自定义Handler需要继承一个适配器，才能称之为Handler
  *
  */
+
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     /**
@@ -28,6 +29,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+
+        System.out.println("执行普通任务的线程："+Thread.currentThread().getName()+"线程Id："+
+                Thread.currentThread().getId());
+
         /**
          * 假设这里有一个耗时任务
          * 解决方案：耗时任务->异步执行->提交任务到该channel 对应的EventLoop 的taskQueue中
@@ -38,6 +43,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             @Override
             public void run() {
                 try {
+                    System.out.println("执行普通任务的线程："+Thread.currentThread().getName()+"线程Id："+
+                            Thread.currentThread().getId());
                     //模拟耗时任务
                     Thread.sleep(5*1000);
                     ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,client 2",
@@ -54,6 +61,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             @Override
             public void run() {
                 try {
+                    System.out.println("执行普通任务的线程："+Thread.currentThread().getName()+"线程Id："+
+                            Thread.currentThread().getId());
                     //模拟耗时任务
                     Thread.sleep(10*1000);
                     ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,client 3",
@@ -68,6 +77,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         //ctx->pipeline->channel->eventLoop->scheduledTaskQueue中此时有1个任务
         ctx.channel().eventLoop().schedule(()->{
             try {
+                System.out.println("执行普通任务的线程："+Thread.currentThread().getName()+"线程Id："+
+                        Thread.currentThread().getId());
                 //模拟耗时任务
                 Thread.sleep(5*1000);
                 ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,client 4",

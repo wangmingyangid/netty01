@@ -37,6 +37,7 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class)//服务端通道的实现
                     .option(ChannelOption.SO_BACKLOG,128)//TODO ？ 设置线程队列，得到连接个数
                     .childOption(ChannelOption.SO_KEEPALIVE,true)//TODO ？ 设置保持活动连接状态
+                    //.handler(null) //用于给 bossGroup 设置handler
                     .childHandler(new ChannelInitializer<SocketChannel>() {
 
                         //给 pipeLine 设置处理器（channel 和 pipeLine 是你中有我我中有你的关系）
@@ -49,8 +50,11 @@ public class NettyServer {
             System.out.println("服务器已经准备好了....");
             //TODO ? 绑定端口，并且进行同步
             ChannelFuture channelFuture = bootstrap.bind(6668).sync();
+
+            System.out.println("我被阻塞前");
             //TODO ? 对关闭端口进行监听
             channelFuture.channel().closeFuture().sync();
+            System.out.println("我被阻塞后");
         }finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();

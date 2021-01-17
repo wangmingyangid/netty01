@@ -21,5 +21,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
         //添加自定义的handler
         pipeline.addLast("myHandler",new ServerHandler());
 
+        System.out.println("哈哈");
+
     }
 }

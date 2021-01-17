@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
 /**
+ * 文件发快速拷贝
  * @author wmy
  * @create 2020-12-06 18:04
  */

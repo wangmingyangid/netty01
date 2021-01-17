@@ -31,6 +31,8 @@ public class NIOServer {
             //等待1秒，如果没有事件发生就返回
             if(selector.select(1000) == 0){
                 System.out.println("服务器等待了1秒，没有连接");
+                //查看当前程序有多少线程
+                getAllThreads();
                 continue;
             }
 
@@ -66,5 +68,15 @@ public class NIOServer {
 
 
         }
+    }
+
+    public static void getAllThreads(){
+        ThreadGroup currentGroup =
+                Thread.currentThread().getThreadGroup();
+        int noThreads = currentGroup.activeCount();
+        Thread[] lstThreads = new Thread[noThreads];
+        currentGroup.enumerate(lstThreads);
+        for (int i = 0; i < noThreads; i++)
+            System.out.println("线程号：" + i + " = " + lstThreads[i].getName());
     }
 }
